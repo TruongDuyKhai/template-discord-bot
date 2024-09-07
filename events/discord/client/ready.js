@@ -13,7 +13,7 @@ module.exports = {
             process.exit();
         }
         require('../../../handlers/antiCrash');
-        if (process.env.EXPRESS === true) {
+        if (process.env.EXPRESS === 'true') {
             const express = require('express');
             const app = express();
             const port = client.configs.settings.port;
