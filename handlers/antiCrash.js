@@ -32,7 +32,7 @@ client.on("error", (e) => {
 process.on("unhandledRejection", async (reason, p) => {
     if(excepts.find(e => reason.message.search(e) !== -1)) return;
     console.log(reason + '\n' + p);
-    client.sendWebhook(process.env.WEBHOOKLOG, {
+    client.sendWebhook(process.env.WEBHOOK_LOG, {
         embeds: [
             client.embed(undefined, {
                 title: `Unhandled Rejection/Catch: ${reason.message}`,
@@ -55,7 +55,7 @@ process.on("unhandledRejection", async (reason, p) => {
 
 process.on("uncaughtException", async (e, origin) => {
     console.log(e + '\n' + origin);
-    client.sendWebhook(process.env.WEBHOOKLOG, {
+    client.sendWebhook(process.env.WEBHOOK_LOG, {
         embeds: [
             client.embed(undefined, {
                 title: `Uncaught Exception/Catch ${e.message}`,
@@ -78,7 +78,7 @@ process.on("uncaughtException", async (e, origin) => {
 
 process.on("uncaughtExceptionMonitor", async (e, origin) => {
     console.log(e + '\n' + origin);
-    client.sendWebhook(process.env.WEBHOOKLOG, {
+    client.sendWebhook(process.env.WEBHOOK_LOG, {
         embeds: [
             client.embed(undefined, {
                 title: `Uncaught Exception Monitor ${e.message}`,
