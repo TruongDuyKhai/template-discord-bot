@@ -47,8 +47,8 @@ class Client extends discord.Client {
     }
 
     async sendWebhook(url, options) {
-        const webhhook = new discord.WebhookClient({ url });
-        return await webhhook.send(options);
+        const webhook = new discord.WebhookClient({ url });
+        return await webhook.send(options);
     }
 
     init() {

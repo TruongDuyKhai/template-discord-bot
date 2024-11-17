@@ -1,6 +1,5 @@
 require('dotenv').config();
 require('colors');
-require('./extensions/console');
 
 const discord = require('discord.js');
 const { Partials } = discord;
