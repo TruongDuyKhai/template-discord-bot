@@ -27,7 +27,7 @@ module.exports = {
             }
             console.log(data);
             console.log(
-                `Invite Link: https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8`
+                `Invite Link: https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8&guild_id=${client.configs.settings.guildId}`
             );
         });
 
