@@ -1,100 +1,163 @@
-require('colors');
+require("colors");
 const excepts = [
-    'Socket connection timeout',
-    'fetch failed',
-    'Unknown interaction',
-    'Unexpected end of JSON input',
+    "Socket connection timeout",
+    "fetch failed",
+    "Unknown interaction",
+    "Unexpected end of JSON input",
     `is not valid JSON`,
-    'Cannot perform IP discovery - socket closed',
-    'AggregateError',
-    'read ECONNRESET',
-    'connection <monitor> to',
-    'Connect Timeout Error',
-    'connection timed out',
-    'Request aborted',
-    'getaddrinfo ENOTFOUND',
-    'Opening handshake has timed out'
+    "Cannot perform IP discovery - socket closed",
+    "AggregateError",
+    "read ECONNRESET",
+    "connection <monitor> to",
+    "Connect Timeout Error",
+    "connection timed out",
+    "Request aborted",
+    "getaddrinfo ENOTFOUND",
+    "Opening handshake has timed out",
 ];
 const client = require(`../index`);
-const { inspect } = require('util');
+const { inspect } = require("util");
+const { AttachmentBuilder } = require("discord.js");
 client.on("error", (e) => {
     client.sendWebhook(process.env.WEBHOOK_LOG, {
         embeds: [
             client.embed(`\`\`\`\n${inspect(e, { depth: 0 })}\n\`\`\``, {
-                title: 'Error',
-                url: 'https://discordjs.guide/popular-topics/errors.html#api-errors',
+                title: "Error",
+                url: "https://discordjs.guide/popular-topics/errors.html#api-errors",
                 timestamp: true,
-            })
-        ]
-    })
+            }),
+        ],
+    });
 });
 
 process.on("unhandledRejection", async (reason, p) => {
-    if(excepts.find(e => reason.message.search(e) !== -1)) return;
-    console.log(reason + '\n' + p);
+    if (excepts.find((e) => reason.message.search(e) !== -1)) return;
+    console.log(reason + "\n" + (await p));
+    const r = inspect(reason, { depth: 0 });
+    const promise = inspect(p, { depth: 0 });
     client.sendWebhook(process.env.WEBHOOK_LOG, {
+        files: [
+            promise.length > 1014
+                ? new AttachmentBuilder(
+                      Buffer.from(r, "utf-8", { name: "Reason.txt" })
+                  )
+                : null,
+            promise.length > 1014
+                ? new AttachmentBuilder(
+                      Buffer.from(promise, "utf-8", { name: "Promise.txt" })
+                  )
+                : null,
+        ],
         embeds: [
             client.embed(undefined, {
                 title: `Unhandled Rejection/Catch: ${reason.message}`,
                 fields: [
                     {
-                        name: 'Reason',
-                        value: `\`\`\`\n${inspect(reason, { depth: 0 })}\n\`\`\``.substring(0, 1000)
+                        name: "Reason",
+                        value: `\`\`\`\n${
+                            r.length > 1014 ? "See Reason.txt" : r
+                        }\n\`\`\``,
                     },
                     {
                         name: "Promise",
-                        value: `\`\`\`\n${inspect(p, { depth: 0 })}\n\`\`\``.substring(0, 1000)
-                    }
+                        value: `\`\`\`\n${
+                            promise.length > 1014 ? "See Promise.txt" : promise
+                        }\n\`\`\``,
+                    },
                 ],
-                url: 'https://nodejs.org/api/process.html#event-unhandledrejection',
+                url: "https://nodejs.org/api/process.html#event-unhandledrejection",
                 timestamp: true,
-            })
-        ]
-    })
+            }),
+        ],
+    });
 });
 
 process.on("uncaughtException", async (e, origin) => {
-    console.log(e + '\n' + origin);
+    console.log(e + "\n" + origin);
+    const e = inspect(error, {
+        depth: 0,
+    });
+    const o = inspect(origin, {
+        depth: 0,
+    });
     client.sendWebhook(process.env.WEBHOOK_LOG, {
+        files: [
+            e.length > 1014
+                ? new AttachmentBuilder(
+                      Buffer.from(e, "utf-8", { name: "Error.txt" })
+                  )
+                : null,
+            o.length > 1014
+                ? new AttachmentBuilder(
+                      Buffer.from(o, "utf-8", { name: "Origin.txt" })
+                  )
+                : null,
+        ],
         embeds: [
             client.embed(undefined, {
                 title: `Uncaught Exception/Catch ${e.message}`,
                 fields: [
                     {
-                        name: 'Error',
-                        value: `\`\`\`\n${inspect(e, { depth: 0 })}\n\`\`\``.substring(0, 1000)
+                        name: "Error",
+                        value: `\`\`\`\n${
+                            e.length > 1014 ? "See Error.txt" : e
+                        }\n\`\`\``,
                     },
                     {
                         name: "Origin",
-                        value: `\`\`\`\n${inspect(origin, { depth: 0 })}\n\`\`\``.substring(0, 1000)
-                    }
+                        value: `\`\`\`\n${
+                            o.length > 1014 ? "See Origin.txt" : o
+                        }\n\`\`\``,
+                    },
                 ],
-                url: 'https://nodejs.org/api/process.html#event-uncaughtexception',
+                url: "https://nodejs.org/api/process.html#event-uncaughtexception",
                 timestamp: true,
-            })
-        ]
-    })
+            }),
+        ],
+    });
 });
 
-process.on("uncaughtExceptionMonitor", async (e, origin) => {
-    console.log(e + '\n' + origin);
+process.on("uncaughtExceptionMonitor", async (error, origin) => {
+    console.log(e + "\n" + origin);
+    const e = inspect(error, {
+        depth: 0,
+    });
+    const o = inspect(origin, {
+        depth: 0,
+    });
     client.sendWebhook(process.env.WEBHOOK_LOG, {
+        files: [
+            e.length > 1014
+                ? new AttachmentBuilder(
+                      Buffer.from(e, "utf-8", { name: "Error.txt" })
+                  )
+                : null,
+            o.length > 1014
+                ? new AttachmentBuilder(
+                      Buffer.from(o, "utf-8", { name: "Origin.txt" })
+                  )
+                : null,
+        ],
         embeds: [
             client.embed(undefined, {
-                title: `Uncaught Exception Monitor ${e.message}`,
+                title: `Uncaught Exception Monitor ${error.message}`,
                 fields: [
                     {
-                        name: 'Error',
-                        value: `\`\`\`${inspect(e, { depth: 0 })}\`\`\``.substring(0, 1000)
+                        name: "Error",
+                        value: `\`\`\`${
+                            e.length > 1014 ? "See Error.txt" : e
+                        }\`\`\``,
                     },
                     {
                         name: "Origin",
-                        value: `\`\`\`${inspect(origin, { depth: 0 })}\`\`\``.substring(0, 1000)
+                        value: `\`\`\`${
+                            o.length > 1014 ? "See Origin.txt" : o
+                        }\`\`\``,
                     },
                 ],
-                url: 'https://nodejs.org/api/process.html#event-uncaughtexceptionmonitor',
+                url: "https://nodejs.org/api/process.html#event-uncaughtexceptionmonitor",
                 timestamp: true,
-            })
-        ]
-    })
+            }),
+        ],
+    });
 });
