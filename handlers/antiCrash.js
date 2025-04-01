@@ -32,20 +32,22 @@ client.on("error", (e) => {
 
 process.on("unhandledRejection", async (reason, p) => {
     if (excepts.find((e) => reason.message.search(e) !== -1)) return;
-    console.log(reason + "\n" + (await p));
+    console.log(`============== unhandledRejection ==============`);
+    console.log(reason);
+    console.log(p);
     const r = inspect(reason, { depth: 0 });
     const promise = inspect(p, { depth: 0 });
     client.sendWebhook(process.env.WEBHOOK_LOG, {
         files: [
-            promise.length > 1014
-                ? new AttachmentBuilder(
-                      Buffer.from(r, "utf-8", { name: "Reason.txt" })
-                  )
+            r.length > 1014
+                ? new AttachmentBuilder(Buffer.from(r, "utf-8"), {
+                      name: "Reason.txt",
+                  })
                 : null,
             promise.length > 1014
-                ? new AttachmentBuilder(
-                      Buffer.from(promise, "utf-8", { name: "Promise.txt" })
-                  )
+                ? new AttachmentBuilder(Buffer.from(promise, "utf-8"), {
+                      name: "Promise.txt",
+                  })
                 : null,
         ],
         embeds: [
@@ -72,8 +74,10 @@ process.on("unhandledRejection", async (reason, p) => {
     });
 });
 
-process.on("uncaughtException", async (e, origin) => {
-    console.log(e + "\n" + origin);
+process.on("uncaughtException", async (error, origin) => {
+    console.log(`============== uncaughtException ==============`);
+    console.log(e);
+    console.log(origin);
     const e = inspect(error, {
         depth: 0,
     });
@@ -83,19 +87,19 @@ process.on("uncaughtException", async (e, origin) => {
     client.sendWebhook(process.env.WEBHOOK_LOG, {
         files: [
             e.length > 1014
-                ? new AttachmentBuilder(
-                      Buffer.from(e, "utf-8", { name: "Error.txt" })
-                  )
+                ? new AttachmentBuilder(Buffer.from(e, "utf-8"), {
+                      name: "Error.txt",
+                  })
                 : null,
             o.length > 1014
-                ? new AttachmentBuilder(
-                      Buffer.from(o, "utf-8", { name: "Origin.txt" })
-                  )
+                ? new AttachmentBuilder(Buffer.from(o, "utf-8"), {
+                      name: "Origin.txt",
+                  })
                 : null,
         ],
         embeds: [
             client.embed(undefined, {
-                title: `Uncaught Exception/Catch ${e.message}`,
+                title: `Uncaught Exception/Catch ${error.message}`,
                 fields: [
                     {
                         name: "Error",
@@ -118,7 +122,9 @@ process.on("uncaughtException", async (e, origin) => {
 });
 
 process.on("uncaughtExceptionMonitor", async (error, origin) => {
-    console.log(e + "\n" + origin);
+    console.log(`============== uncaughtExceptionMonitor ==============`);
+    console.log(e);
+    console.log(origin);
     const e = inspect(error, {
         depth: 0,
     });
@@ -128,14 +134,14 @@ process.on("uncaughtExceptionMonitor", async (error, origin) => {
     client.sendWebhook(process.env.WEBHOOK_LOG, {
         files: [
             e.length > 1014
-                ? new AttachmentBuilder(
-                      Buffer.from(e, "utf-8", { name: "Error.txt" })
-                  )
+                ? new AttachmentBuilder(Buffer.from(e, "utf-8"), {
+                      name: "Error.txt",
+                  })
                 : null,
             o.length > 1014
-                ? new AttachmentBuilder(
-                      Buffer.from(o, "utf-8", { name: "Origin.txt" })
-                  )
+                ? new AttachmentBuilder(Buffer.from(o, "utf-8"), {
+                      name: "Origin.txt",
+                  })
                 : null,
         ],
         embeds: [

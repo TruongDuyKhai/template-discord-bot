@@ -14,7 +14,7 @@ module.exports = {
                 content: "You are not a developer.",
             });
         const code = interaction.options.getString("code");
-        const { inspect } = require("util");
+        const { inspect } = requie("util");
         let output;
         try {
             output = await eval(`(async () => { ${code} })()`);
