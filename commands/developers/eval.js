@@ -9,12 +9,12 @@ module.exports = {
             option.setName("code").setDescription("code").setRequired(true)
         ),
     async execute(client, interaction) {
-        if (!client.configs.settings.devUsers.includes(interaction.user.id))
+        if (!client.configs.settings.devUserIds.includes(interaction.user.id))
             return interaction.followUp({
                 content: "You are not a developer.",
             });
         const code = interaction.options.getString("code");
-        const { inspect } = requie("util");
+        const { inspect } = require("util");
         let output;
         try {
             output = await eval(`(async () => { ${code} })()`);

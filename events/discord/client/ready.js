@@ -4,7 +4,13 @@ module.exports = {
     name: "ready",
     async execute(client) {
         if (!client.configs.settings.guildId) {
-            throw new Error("Missing guild id in settings config file.");
+            throw new Error("Missing guild id.");
+        }
+        if (!client.configs.settings.inviteCode) {
+            throw new Error("Missing guild invite code.");
+        }
+        if (!client.configs.settings.ownerUserIds[0]) {
+            throw new Error("Missing owner bot.");
         }
         client.guilds.cache.forEach((e) => {
             if (client.configs.settings.guildId !== e.id) e.leave();
@@ -19,17 +25,14 @@ module.exports = {
                 console.log(`Server is listening on port ${port}`);
             });
         }
-        const figlet = require("figlet");
-        figlet(client.user.username, (err, data) => {
-            if (err) {
-                console.log("Error: ", err);
-                return;
-            }
-            console.log(data);
-            console.log(
-                `Invite Link: https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8&guild_id=${client.configs.settings.guildId}`
-            );
-        });
+
+        console.log(`Username: ${client.user.username}`);
+        console.log(`Client ID: ${client.user.id}`);
+        console.log(`Guild ID: ${client.configs.settings.guildId}`);
+        console.log(`Guild Invite Code: ${client.configs.settings.inviteCode}`);
+        console.log(
+            `Invite Link: https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8&guild_id=${client.configs.settings.guildId}`
+        );
 
         setInterval(() => {
             client.sendWebhook(process.env.WEBHOOK_BACKUP, {

@@ -20,7 +20,7 @@ async function swapPage(
     message,
     msgOptions,
     options = {},
-    callback = (interaction, message, collector) => {}
+    callback = () => {}
 ) {
     const type1 = message instanceof Message ? "reply" : "followUp";
     const type2 = type1 == "reply" ? "edit" : "editReply";
