@@ -1,14 +1,17 @@
 const { QuickDB } = require("quick.db");
+const nanoid = require("nanoid");
 
 class QuickDBExtension extends QuickDB {
     constructor(options) {
         super(options);
     }
     async create(model, data) {
+        data._id = nanoid();
         await this.push(model, data);
         return data;
     }
     async crateMany(model, arrayData) {
+        arrayData = arrayData.map((e) => (e._id = nanoid()));
         await this.push(model, ...arrayData);
         return arrayData;
     }
@@ -29,6 +32,8 @@ class QuickDBExtension extends QuickDB {
         })[0];
     }
     async findOneAndUpdate(model, query, data) {
+        if (data?._id) throw new Error("You can't change _id");
+
         const oldData = (await this.get(model)) || [];
         var newData = oldData;
         const index = oldData.findIndex((e) => {
