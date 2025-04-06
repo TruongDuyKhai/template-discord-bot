@@ -10,7 +10,7 @@ class QuickDBExtension extends QuickDB {
         await this.push(model, data);
         return data;
     }
-    async crateMany(model, arrayData) {
+    async createMany(model, arrayData) {
         arrayData = arrayData.map((e) => (e._id = nanoid()));
         await this.push(model, ...arrayData);
         return arrayData;
