@@ -1,17 +1,17 @@
 const { QuickDB } = require("quick.db");
-const {nanoid} = require("nanoid");
+const { nanoid } = require("nanoid");
 
 class QuickDBExtension extends QuickDB {
     constructor(options) {
         super(options);
     }
     async create(model, data) {
-        data._id = nanoid();
+        data._id = nanoid(24);
         await this.push(model, data);
         return data;
     }
     async createMany(model, arrayData) {
-        arrayData = arrayData.map((e) => (e._id = nanoid()));
+        arrayData = arrayData.map((e) => (e._id = nanoid(24)));
         await this.push(model, ...arrayData);
         return arrayData;
     }

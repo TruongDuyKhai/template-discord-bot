@@ -14,7 +14,6 @@
         "@khaidev1012/funcs": "^0.1.4",
         "axios": "^1.7.2",
         "better-sqlite3": "^11.1.2",
-        "colors": "^1.4.0",
         "discord.js": "^14.18.0",
         "dotenv": "^16.4.5",
         "express": "^4.19.2",
