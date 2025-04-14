@@ -1,5 +1,5 @@
 const discord = require("discord.js");
-const { QuickDB } = require("quick.db");
+const { QuickDB } = require("./QuickDB");
 
 class Client extends discord.Client {
     constructor(options) {
