@@ -37,7 +37,9 @@ class Client extends discord.Client {
         return {
             url: options.url || null,
             color: options.color
-                ? this.funcs.hexToInt(options.color)
+                ? typeof options.color === "string"
+                    ? this.funcs.hexToInt(options.color)
+                    : options.color
                 : this.funcs.hexToInt(this.configs.embed.color),
             description:
                 typeof description === "object"
