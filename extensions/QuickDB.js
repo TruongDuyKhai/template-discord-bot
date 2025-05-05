@@ -11,7 +11,10 @@ class QuickDBExtension extends QuickDB {
         return data;
     }
     async createMany(model, arrayData) {
-        arrayData = arrayData.map((e) => (e._id = nanoid(24)));
+        arrayData = arrayData.map((e) => {
+            e._id = nanoid(24);
+            return e;
+        });
         await this.push(model, ...arrayData);
         return arrayData;
     }
