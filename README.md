@@ -128,7 +128,7 @@ The extended QuickDB class contains methods:
     -   `model`: The model name.
     -   `data`: The data to create.
 
--   **`db.crateMany(model, arrayData)`:** Creates multiple data in the model.
+-   **`db.createMany(model, arrayData)`:** Creates multiple data in the model.
 
     -   `model`: The model name.
     -   `arrayData`: An array of data to create.
