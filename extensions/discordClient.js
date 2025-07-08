@@ -10,7 +10,9 @@ class Client extends discord.Client {
     configs = require("../handlers/configs").load();
     events = require("../handlers/events").load();
     funcs = require("../handlers/functions").load();
-    slashCommands = require("../handlers/commands").load();
+    commandCategories = require("../handlers/commands").loadCategories();
+    textCommands = require("../handlers/commands").loadTextCommands();
+    slashCommands = require("../handlers/commands").loadSlashCommands();
 
     db = new QuickDB();
     fs = require("fs");
