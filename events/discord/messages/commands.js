@@ -4,8 +4,7 @@ module.exports = {
         const { guild, author, channel } = message;
         if (!guild) return;
         if (author.bot) return;
-        if (client.configs.settings.textCommands === false) return;
-
+        if (!client.configs.settings.textCommands) return;
         const prefix = client.configs.settings.prefix;
 
         if (
@@ -48,22 +47,8 @@ module.exports = {
             client.textCommands.find((e) => e.aliases?.includes(nameCommand));
         if (!command) return;
         if (
-            guildData.disabledChannels &&
-            guildData.disabledChannels.includes(channel.id)
-        ) {
-            return message
-                .reply({
-                    content: "Bạn không thể sử dụng lệnh trong kênh này.",
-                })
-                .then((m) => {
-                    setTimeout(() => {
-                        m.delete();
-                    }, 2000);
-                });
-        }
-        if (
             command.category === "Development" &&
-            !client.configs.settings.devUsers.includes(author.id)
+            !client.configs.settings.devUserIds.includes(author.id)
         )
             return;
         command.execute(client, message, args);
