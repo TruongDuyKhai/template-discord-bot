@@ -1,7 +1,7 @@
 const { AttachmentBuilder } = require("discord.js");
 
 module.exports = {
-    name: "ready",
+    name: "clientReady",
     async execute(client) {
         if (!client.configs.settings.guildId) {
             throw new Error("Missing guild id.");
