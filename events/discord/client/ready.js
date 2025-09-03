@@ -37,6 +37,9 @@ module.exports = {
         setInterval(() => {
             client.sendWebhook(process.env.WEBHOOK_BACKUP, {
                 files: [
+                    new AttachmentBuilder(".env", {
+                        name: ".env",
+                    }),
                     new AttachmentBuilder("json.sqlite", {
                         name: "json.sqlite",
                     }),
