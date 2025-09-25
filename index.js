@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const discord = require("discord.js");
-const { Partials, Options } = discord;
+const { Partials, Options, GatewayIntentBits } = discord;
 const Client = require("./extensions/discordClient");
 
 const client = new Client({
