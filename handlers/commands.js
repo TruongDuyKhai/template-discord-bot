@@ -1,12 +1,20 @@
-/* const { readFiles } = require("@khaidev1012/funcs");
+/* 
+const { readFiles } = require("@khaidev1012/funcs");
 
 exports.load = () => {
-    return readFiles(`${process.cwd()}/commands`, {
+    const commandFiles = readFiles(`${process.cwd()}/commands`, {
         extensions: [".js"],
         noPromise: true,
-    }).map(require);
+    })
+        .map(require)
+        .map((e) => {
+            e.data = e.data.setContexts(0).setIntegrationTypes(0);
+            return e;
+        });
+    return commandFiles;
 };
- */
+*/
+
 const { readFiles } = require("@khaidev1012/funcs");
 
 exports.loadTextCommands = () => {
@@ -28,10 +36,16 @@ exports.loadTextCommands = () => {
 };
 
 exports.loadSlashCommands = () => {
-    return readFiles(`${process.cwd()}/commands/slash`, {
+    const commandFiles = readFiles(`${process.cwd()}/commands/slash`, {
         extensions: [".js"],
         noPromise: true,
-    }).map(require);
+    })
+        .map(require)
+        .map((e) => {
+            e.data = e.data.setContexts(0).setIntegrationTypes(0);
+            return e;
+        });
+    return commandFiles;
 };
 
 exports.loadCategories = () => {
