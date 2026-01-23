@@ -1,3 +1,3 @@
 module.exports = {
-    color: "#ffffff",
+    color: "#ff00aa",
 };
